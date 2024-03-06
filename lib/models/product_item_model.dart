@@ -37,7 +37,7 @@ class ProductItemModel {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     required this.price,
     required this.category,
-    this.averageRate = 4.5,
+    this.averageRate = 3.5,
   });
 
   ProductItemModel copyWith({
@@ -89,6 +89,8 @@ class ProductItemModel {
     );
   }
 }
+
+List<ProductItemModel> favProducts = [];
 
 List<ProductItemModel> dummyProducts = [
   ProductItemModel(

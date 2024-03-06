@@ -27,7 +27,7 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
   List<Widget> _buildScreens() {
     return const [
       HomePage(),
-      FavPage(),
+      FavoritesPage(),
       CartPage(),
       ProfilePage(),
     ];

@@ -1,4 +1,6 @@
 import 'package:ecommrac_app/models/product_item_model.dart';
+import 'package:ecommrac_app/utils/route/app_router.dart';
+import 'package:ecommrac_app/utils/route/app_routes.dart';
 import 'package:ecommrac_app/views/widgets/custom_carousel_indicatior.dart';
 import 'package:ecommrac_app/views/widgets/product_item.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +46,9 @@ class HomeTabView extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () {},
+                  onTap: () => Navigator.of(context, rootNavigator: true)
+                      .pushNamed(AppRoutes.productDetails,
+                          arguments: dummyProducts[index]),
                   child: ProductItem(
                     productItem: dummyProducts[index],
                   ),
