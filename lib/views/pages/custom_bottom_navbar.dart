@@ -4,6 +4,7 @@ import 'package:ecommrac_app/views/pages/cart_page.dart';
 import 'package:ecommrac_app/views/pages/favorites_page.dart';
 import 'package:ecommrac_app/views/pages/home_page.dart';
 import 'package:ecommrac_app/views/pages/profile_page.dart';
+import 'package:ecommrac_app/views/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
@@ -93,7 +94,20 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
                     )),
           ],
         ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        actions: [
+          IconButton(
+            icon: Icon(Icons
+                .search), // Replace with your search icon if it's different
+
+            onPressed: () {
+              // Using Navigator to push a new route
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>
+                    SearchPage(), // The page you want to navigate to
+              ));
+            },
+          ),
+        ],
       ),
       body: PersistentTabView(
         context,
