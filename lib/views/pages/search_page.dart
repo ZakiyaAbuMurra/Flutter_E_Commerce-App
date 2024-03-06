@@ -1,5 +1,6 @@
 import 'package:ecommrac_app/models/product_item_model.dart';
 import 'package:ecommrac_app/utils/app_colors.dart';
+import 'package:ecommrac_app/views/pages/product_details_page.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -16,7 +17,8 @@ class _SearchPageState extends State<SearchPage> {
   ];
   List<ProductItemModel> popularProducts =
       dummyProducts; // Use the appropriate list
-  List<String> searchResults = []; // Initialize with your search results data
+  List<ProductItemModel> searchResults =
+      []; // Initialize with your search results data
   String query = '';
 
   void addSearchTerm(String term) {
@@ -28,13 +30,17 @@ class _SearchPageState extends State<SearchPage> {
 
   void performSearch(String query) {
     print('Performing search for: $query');
-    addSearchTerm(query);
+
+    // Assuming you want to search by product name
+    List<ProductItemModel> results = dummyProducts.where((product) {
+      // Use toLowerCase to make the search case-insensitive
+      return product.name.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
     setState(() {
-      searchResults = [
-        'Result 1',
-        'Result 2',
-        'Result 3'
-      ]; // Placeholder for search results
+      // Update your search results state to display the new list
+      searchResults = results;
+      addSearchTerm(query);
     });
   }
 
@@ -145,9 +151,27 @@ class _SearchPageState extends State<SearchPage> {
               ],
 
               // Search Results
-              ...searchResults.map((result) => ListTile(
-                    title: Text(result),
-                  )),
+              if (query.isNotEmpty) ...[
+                ...searchResults
+                    .map((product) => ListTile(
+                          leading: Image.network(product.imgUrl,
+                              width: 50, height: 50),
+                          title: Text(product.name),
+                          subtitle:
+                              Text("\$${product.price.toStringAsFixed(2)}"),
+                          onTap: () {
+                            // Navigate to the ProductDetailsPage, passing the selected product
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductDetailsPage(product: product),
+                              ),
+                            );
+                          },
+                        ))
+                    .toList(),
+              ],
             ],
           ),
         ),
@@ -182,7 +206,6 @@ class _SearchPageState extends State<SearchPage> {
                 ],
               ),
             ),
-            // Placeholder for a tag, you will need to implement a mechanism to determine the tag label and color
             const Chip(
               label: Text('NEW', style: TextStyle(color: Colors.white)),
               backgroundColor: AppColors.primary, // Example tag color
