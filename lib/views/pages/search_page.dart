@@ -161,13 +161,13 @@ class _SearchPageState extends State<SearchPage> {
                               Text("\$${product.price.toStringAsFixed(2)}"),
                           onTap: () {
                             // Navigate to the ProductDetailsPage, passing the selected product
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProductDetailsPage(product: product),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         ProductDetailsPage(product: product),
+                            //   ),
+                            // );
                           },
                         ))
                     .toList(),

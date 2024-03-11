@@ -10,6 +10,7 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
+
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
@@ -24,9 +25,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
     return ListView.builder(
         itemCount: favProducts.length,
         itemBuilder: (context, index) {
-          debugPrint(
-              'The number of fav item that reached in to the fav pag  ${favProducts.length}');
-
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommrac_app/models/product_item_model.dart';
 import 'package:ecommrac_app/utils/app_colors.dart';
-import 'package:flutter/material.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductItemModel productItem;
@@ -50,9 +51,10 @@ class _ProductItemState extends State<ProductItem> {
                       favProducts.remove(widget.productItem);
                     } else {
                       favProducts.add(widget.productItem);
+                      debugPrint(
+                          'Add to favorite clicked  ${favProducts.length}');
                     }
                   });
-                  debugPrint('Add to favorite clicked  ${favProducts.length}');
                 },
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
