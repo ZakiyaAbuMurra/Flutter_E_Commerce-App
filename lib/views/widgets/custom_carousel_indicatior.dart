@@ -1,9 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommrac_app/models/announcement_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomCarouselIndicator extends StatefulWidget {
-  const CustomCarouselIndicator({super.key});
+  final List<AnnouncementModel> announcements;
+  const CustomCarouselIndicator({
+    super.key,
+    required this.announcements,
+  });
 
   @override
   State<CustomCarouselIndicator> createState() =>
@@ -16,41 +21,21 @@ class _CustomCarouselIndicatorState extends State<CustomCarouselIndicator> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = CarouselController();
   }
 
-  final List<Widget> imageSliders = dummyAnnouncements
+  List<Widget> imageSliders() => widget.announcements
       .map((item) => Container(
             margin: const EdgeInsets.all(5.0),
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(item.imgUrl,
-                        fit: BoxFit.cover, width: 1000.0),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                      ),
-                    ),
-                  ],
-                )),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+              child: CachedNetworkImage(
+                imageUrl: item.imgUrl,
+                fit: BoxFit.cover,
+                width: 1000.0,
+              ),
+            ),
           ))
       .toList();
 
@@ -59,7 +44,7 @@ class _CustomCarouselIndicatorState extends State<CustomCarouselIndicator> {
     return Column(
       children: [
         CarouselSlider(
-          items: imageSliders,
+          items: imageSliders(),
           carouselController: _controller,
           options: CarouselOptions(
               autoPlay: true,
@@ -79,12 +64,13 @@ class _CustomCarouselIndicatorState extends State<CustomCarouselIndicator> {
               child: Container(
                 width: 12.0,
                 height: 12.0,
-                margin:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: (Theme.of(context).brightness == Brightness.dark
                             ? Colors.white
-                            : Colors.black)
+                            : Theme.of(context).primaryColor)
                         .withOpacity(_current == entry.key ? 0.9 : 0.4)),
               ),
             );

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880682586902",
+    "project_id": "e-commercial-ed80e",
+    "storage_bucket": "e-commercial-ed80e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880682586902:android:be02e7890265a9529bf637",
+        "android_client_info": {
+          "package_name": "com.example.ecommrac_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtu9_dIPZPAsVmzj4HeteX0hCfTKidAKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

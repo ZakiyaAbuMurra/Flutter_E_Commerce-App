@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommrac_app/models/product_item_model.dart';
 import 'package:ecommrac_app/utils/app_colors.dart';
@@ -16,6 +15,7 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Stack(
           children: [
@@ -76,17 +76,13 @@ class _ProductItemState extends State<ProductItem> {
           ],
         ),
         const SizedBox(height: 4.0),
-        Text(
-          widget.productItem.name,
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-        ),
-        Text(
-          widget.productItem.category,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                color: Colors.grey,
-              ),
+        Flexible(
+          child: Text(
+            widget.productItem.name,
+            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                  color: Colors.grey,
+                ),
+          ),
         ),
         Text(
           '\$${widget.productItem.price}',

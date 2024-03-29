@@ -1,36 +1,58 @@
+import 'package:ecommrac_app/services/firestore_services.dart';
 import 'package:ecommrac_app/utils/app_assets.dart';
 import 'package:ecommrac_app/utils/app_colors.dart';
 import 'package:ecommrac_app/views/pages/cart_page.dart';
 import 'package:ecommrac_app/views/pages/favorites_page.dart';
 import 'package:ecommrac_app/views/pages/home_page.dart';
 import 'package:ecommrac_app/views/pages/profile_page.dart';
-import 'package:ecommrac_app/views/pages/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
-class CustomButtonNavBar extends StatefulWidget {
-  const CustomButtonNavBar({super.key});
+class CustomBottomNavbar extends StatefulWidget {
+  const CustomBottomNavbar({super.key});
 
   @override
-  State<CustomButtonNavBar> createState() => _CustomButtonNavBarState();
+  State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
 }
 
-class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
+class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   late PersistentTabController _controller;
+  final FirestoreService _firestoreService = FirestoreService.instance;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = PersistentTabController();
+    //  sendDummyData();
   }
 
+  //To send the dummy data to Firestore, as it takes less time to create the database manually from scratch.
+  // Future<void> sendDummyData() async {
+  //   dummyProducts.forEach((product) async {
+  //     await _firestoreService.setData(
+  //       path: ApiPaths.product(product.id),
+  //       data: product.toMap(),
+  //     );
+  //   });
+  // }
+
+  //To send the dummy data to Firestore, as it takes less time to create the database manually from scratch.
+  // Future<void> sendDummyData() async {
+  //   dummyAnnouncements.forEach((ann) async {
+  //     await _firestoreService.setData(
+  //       path: ApiPaths.announcement(ann.id),
+  //       data: ann.toMap(),
+  //     );
+  //   });
+  // }
+
   List<Widget> _buildScreens() {
-    return const [
-      HomePage(),
-      FavoritesPage(),
-      CartPage(),
-      ProfilePage(),
+    return [
+      const HomePage(),
+      const FavoritesPage(),
+      const CartPage(),
+      ProfilePage(userId: 'user_id'), // Include the ProfilePage here
     ];
   }
 
@@ -72,9 +94,9 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
     return Scaffold(
       appBar: AppBar(
         leading: const Padding(
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(4.0),
           child: CircleAvatar(
-            radius: 30.0,
+            radius: 30,
             backgroundImage: NetworkImage(AppAssets.userImage),
           ),
         ),
@@ -82,30 +104,27 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi , Zakiya',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .copyWith(fontWeight: FontWeight.bold),
+              'Hi, Zakiya',
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-            Text('Lets go shopping !',
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: AppColors.grey,
-                    )),
+            Text(
+              'Let\'s go shopping!',
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: AppColors.grey,
+                  ),
+            ),
           ],
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons
-                .search), // Replace with your search icon if it's different
-
-            onPressed: () {
-              // Using Navigator to push a new route
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>
-                    SearchPage(), // The page you want to navigate to
-              ));
-            },
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
           ),
         ],
       ),
@@ -115,21 +134,19 @@ class _CustomButtonNavBarState extends State<CustomButtonNavBar> {
         screens: _buildScreens(),
         items: _navBarsItems(),
         confineInSafeArea: true,
-        backgroundColor: Colors.white, // Default is Colors.white.
-        handleAndroidBackButtonPress: true, // Default is true.
+        stateManagement: false,
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
         hideNavigationBarWhenKeyboardShows:
-            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.c
+            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties(
+        itemAnimationProperties: const ItemAnimationProperties(
           // Navigation Bar's items animation properties.
           duration: Duration(milliseconds: 200),
           curve: Curves.ease,
         ),
-        screenTransitionAnimation: ScreenTransitionAnimation(
+        screenTransitionAnimation: const ScreenTransitionAnimation(
           // Screen transition animation on change of selected tab.
           animateTabTransition: true,
           curve: Curves.ease,

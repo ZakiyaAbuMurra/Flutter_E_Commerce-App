@@ -55,7 +55,6 @@ class ProductDetailsPage extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     height: size.height * 0.6,
-                    // padding: EdgeInsets.only(top: size.height * 0.09),
                     decoration: BoxDecoration(
                       color: AppColors.grey2,
                     ),
@@ -239,6 +238,10 @@ class ProductDetailsPage extends StatelessWidget {
                                 .copyWith(
                                   color: AppColors.grey,
                                 ),
+                            maxLines:
+                                5, // Adjust the number of lines accordingly
+                            overflow: TextOverflow
+                                .ellipsis, // Use ellipsis to handle text that exceeds the space
                           ),
                           const Spacer(),
                           Row(

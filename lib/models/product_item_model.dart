@@ -62,6 +62,7 @@ class ProductItemModel {
     );
   }
 
+  //Convert the model to map then send it to firestore.
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
@@ -76,6 +77,8 @@ class ProductItemModel {
     return result;
   }
 
+  // Convert the Data that received form the firestore to map, which  can be used in the app.
+  // NEW concept : factory , search.
   factory ProductItemModel.fromMap(
       Map<String, dynamic> map, String documentId) {
     return ProductItemModel(
@@ -88,18 +91,13 @@ class ProductItemModel {
       averageRate: map['averageRate']?.toDouble() ?? 0.0,
     );
   }
+
+  
 }
 
 List<ProductItemModel> favProducts = [];
 
 List<ProductItemModel> dummyProducts = [
-  ProductItemModel(
-    id: 'TUbtVrVcMNHpZF33cxKC',
-    name: 'Black Shoes',
-    imgUrl: 'https://pngimg.com/d/men_shoes_PNG7475.png',
-    price: 20,
-    category: 'Shoes',
-  ),
   ProductItemModel(
     id: 'zuHIOlufjUFsacVn48kt',
     name: 'Trousers',
