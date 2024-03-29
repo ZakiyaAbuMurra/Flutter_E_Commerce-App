@@ -52,7 +52,7 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
       const HomePage(),
       const FavoritesPage(),
       const CartPage(),
-      ProfilePage(userId: 'user_id'), // Include the ProfilePage here
+      ProfilePage(), // Include the ProfilePage here
     ];
   }
 
