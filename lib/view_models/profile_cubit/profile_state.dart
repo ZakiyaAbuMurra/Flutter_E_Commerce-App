@@ -7,6 +7,7 @@ final class ProfileInitial extends ProfileState {}
 final class ProfileLoading extends ProfileState {}
 
 final class ProfileLoaded extends ProfileState {
+  
   final UserModel user; // Updated to a single UserModel instance
   ProfileLoaded(this.user);
 }

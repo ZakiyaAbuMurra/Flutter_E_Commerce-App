@@ -1,16 +1,19 @@
+import 'package:ecommrac_app/services/auth_services.dart';
 import 'package:ecommrac_app/services/firestore_services.dart';
 import 'package:ecommrac_app/utils/app_assets.dart';
 import 'package:ecommrac_app/utils/app_colors.dart';
+import 'package:ecommrac_app/view_models/profile_cubit/profile_cubit.dart';
 import 'package:ecommrac_app/views/pages/cart_page.dart';
 import 'package:ecommrac_app/views/pages/favorites_page.dart';
 import 'package:ecommrac_app/views/pages/home_page.dart';
 import 'package:ecommrac_app/views/pages/profile_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
-  const CustomBottomNavbar({super.key});
+  const CustomBottomNavbar({Key? key}) : super(key: key);
 
   @override
   State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
@@ -19,6 +22,8 @@ class CustomBottomNavbar extends StatefulWidget {
 class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   late PersistentTabController _controller;
   final FirestoreService _firestoreService = FirestoreService.instance;
+  // final firebaseAuth = FirebaseAuth.instance;
+  final userUid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   void initState() {
@@ -50,9 +55,9 @@ class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
   List<Widget> _buildScreens() {
     return [
       const HomePage(),
-      const FavoritesPage(),
+      FavoritesPage(),
       const CartPage(),
-      ProfilePage(), // Include the ProfilePage here
+      const ProfilePage(), // Include the ProfilePage here wrapped with BlocProvider
     ];
   }
 

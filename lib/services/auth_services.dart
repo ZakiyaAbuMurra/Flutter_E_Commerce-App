@@ -6,7 +6,7 @@ abstract class AuthServices {
   Future<bool> signInWithEmailAndPassword(String email, String password);
   Future<bool> signUpWithEmailAndPassword(String email, String password);
   Future<void> signOut();
-  Future<User?> currentUser();
+ Future<User?> currentUser();
 }
 
 class AuthServicesImpl implements AuthServices {

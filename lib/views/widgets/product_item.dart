@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommrac_app/services/firestore_services.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommrac_app/models/product_item_model.dart';
@@ -12,6 +14,43 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
+  bool _isFavorite = false;
+  final FirestoreService _firestoreService = FirestoreService.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfFavorite();
+  }
+
+  Future<void> _checkIfFavorite() async {
+  final String userId = 'your_user_id'; // This should be dynamically set based on the logged-in user
+  final String productId = widget.productItem.id;
+  
+  final DocumentSnapshot favoriteSnapshot = await _firestoreService.firestore
+      .collection('users')
+      .doc(userId)
+      .collection('favorites')
+      .doc(productId)
+      .get();
+
+  setState(() {
+    _isFavorite = favoriteSnapshot.exists;
+  });
+}
+
+  void _toggleFavorite() async {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    if (_isFavorite) {
+      // Assume productItem.toMap() is a method on your model that converts it to a Map
+      await _firestoreService.addFavorite(widget.productItem.id, widget.productItem.toMap());
+    } else {
+      await _firestoreService.removeFavorite(widget.productItem.id);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,17 +84,7 @@ class _ProductItemState extends State<ProductItem> {
               top: 8.0,
               right: 8.0,
               child: InkWell(
-                onTap: () {
-                  setState(() {
-                    if (favProducts.contains(widget.productItem)) {
-                      favProducts.remove(widget.productItem);
-                    } else {
-                      favProducts.add(widget.productItem);
-                      debugPrint(
-                          'Add to favorite clicked  ${favProducts.length}');
-                    }
-                  });
-                },
+                onTap: _toggleFavorite,
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
@@ -64,9 +93,7 @@ class _ProductItemState extends State<ProductItem> {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Icon(
-                      favProducts.contains(widget.productItem)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
+                      _isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
@@ -85,7 +112,7 @@ class _ProductItemState extends State<ProductItem> {
           ),
         ),
         Text(
-          '\$${widget.productItem.price}',
+          '\$${widget.productItem.price.toStringAsFixed(2)}',
           style: Theme.of(context).textTheme.titleSmall!.copyWith(
                 fontWeight: FontWeight.w600,
               ),
